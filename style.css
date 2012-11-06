@@ -1,0 +1,58 @@
+* {
+    padding: 0;
+    margin: 0;
+    }
+
+HTML, BODY {
+    height: 100%;
+    width: 100%;
+    }
+
+BODY {
+    }
+
+.plot {
+    }
+
+.tooltip {
+    opacity: 0;
+    }
+
+.tooltip rect {
+    fill: black;
+    stroke-width: 2px;
+    stroke: #00A9DD;
+    opacity: 0.75;
+    }
+
+.tooltip text {
+    fill: #fff;
+    }
+
+.dot {
+    fill: #fff;
+    stroke-width: 2px;
+    stroke: steelblue;
+    }
+
+.svg {
+    font-family: Arial, Verdana, sans-serif;
+    font-size: 11px;
+    }
+
+.axis line {
+    stroke-width: 1;
+    stroke: #ccc;
+    stroke-opacity: 0.7;
+    shape-rendering: crispedges;
+    }
+
+.axis path {
+    stroke: black;
+    stroke-width: 1;
+    }
+
+path {
+    stroke-width: 1;
+    fill: none;
+    }
