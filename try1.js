@@ -105,8 +105,8 @@ d3Try.Plot = function( plot, data, props )
         plot.style.height = orig_h + "px";
 
         svg
-            .attr( "width",  w + ( margin.right + margin.left   ) )
-            .attr( "height", h + ( margin.top   + margin.bottom ) );
+            .style( "width",  w + ( margin.right + margin.left   ) )
+            .style( "height", h + ( margin.top   + margin.bottom ) );
 
         axis.x
             .attr( "transform", "translate(" + margin.left + "," + ( y.range()[ 0 ] + margin.top ) + ")" )
