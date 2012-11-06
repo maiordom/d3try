@@ -59,10 +59,10 @@ d3Try.Plot = function( plot, data, props )
     {
         svg = d3.select( plot ).append( "svg" ).attr( "class", "svg" );
 
-        graphs_block = svg.append( "g" ).attr( "class", "graphs" );
-
         axis.x = svg.append( "g" ).attr( "class", "x axis" );
         axis.y = svg.append( "g" ).attr( "class", "y axis" );
+
+        graphs_block = svg.append( "g" ).attr( "class", "graphs" );
 
         tip.g    = svg.append( "g" ).attr( "class", "tooltip" ).attr( "visibility", "hidden" );
         tip.rect = tip.g.append( "rect" ).attr( "rx", 5 ).attr( "ry", 5 );
