@@ -86,13 +86,13 @@ d3Try.Graph = function( data, Plot )
                 .attr( "height", 2 * x_h + "px" )
                 .style( "stroke", Plot.color );
 
-            tip.g.attr( "visibility", "visible" ).style( "opacity", 1 );
+            tip.g.attr( "visibility", "visible" );
             item.transition().attr( "r", 5 );
         },
 
         onDotMouseOut = function( d, i )
         {
-            tip.g.style( "opacity", 0 );
+            tip.g.attr( "visibility", "hidden" );
             d3.select( this ).transition().attr( "r", 3 );
         },
 
