@@ -9,13 +9,19 @@ HTML, BODY {
     }
 
 BODY {
+    min-height: 500px;
+    min-width: 500px;
     }
 
 .plot {
     }
 
+.plot-1 {
+    float: left;
+    margin: 50px;
+    }
+
 .tooltip {
-    opacity: 0;
     }
 
 .tooltip rect {
@@ -30,9 +36,8 @@ BODY {
     }
 
 .dot {
-    fill: #fff;
-    stroke-width: 2px;
-    stroke: steelblue;
+    stroke: #333;
+    stroke-width: 0.5px;
     }
 
 .svg {
@@ -41,18 +46,26 @@ BODY {
     }
 
 .axis line {
-    stroke-width: 1;
-    stroke: #ccc;
-    stroke-opacity: 0.7;
     shape-rendering: crispedges;
+    stroke-opacity: 0.1;
+    stroke: white;
+    stroke-width: 1px;
+    }
+
+.axis text {
+    fill: #999;
     }
 
 .axis path {
-    stroke: black;
+    stroke: #999;
     stroke-width: 1;
     }
 
 path {
     stroke-width: 1;
     fill: none;
+    }
+
+.graph path {
+    stroke-width: 2px;
     }
