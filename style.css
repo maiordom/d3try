@@ -24,6 +24,28 @@ BODY {
 .tooltip {
     }
 
+.title {
+    font: 14px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif;
+    fill: #fff;
+    text-anchor: middle;
+    }
+
+.subtitle {
+    font: 12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif;
+    fill: #DDD;
+    text-anchor: middle;
+    }
+
+.x-axis-title {
+    font: bold 12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif;
+    fill: #AAA !important;
+    }
+
+.y-axis-title {
+    font: bold 12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif;
+    fill: #AAA !important;
+    }
+
 .tooltip rect {
     fill: black;
     stroke-width: 2px;

@@ -1,7 +1,8 @@
 
-d3Try.Plot = function( plot, data, props )
+d3Try.Plot = function( plot, props )
 {
     var w, h, svg, x, y, line, gradient_block, graphs_block, orig_w, orig_h, curr_color = 0,
+        title, subtitle,
         graphs = [],
         domain = {},
         axis   = {},
@@ -31,7 +32,7 @@ d3Try.Plot = function( plot, data, props )
 
         setDomain = function()
         {
-            domain.data = d3Try.copyArray( data );
+            domain.data = d3Try.copyArray( props.series );
             domain.x = d3Try.domain( domain.data, "x" );
             domain.y = d3Try.domain( domain.data, "y" );
         },
@@ -73,21 +74,33 @@ d3Try.Plot = function( plot, data, props )
             tip.rect = tip.g.append( "rect" ).attr( "rx", 5 ).attr( "ry", 5 );
             tip.x    = tip.g.append( "text" );
             tip.y    = tip.g.append( "text" );
+
+            title = svg.append( "text" ).attr( { "class": "title" } );
+            title.append( "tspan" ).text( props.title.text );
+
+            subtitle = svg.append( "text" ).attr( { "class": "subtitle" } );
+            subtitle.append( "tspan" ).text( props.subtitle.text );
+
+            axis.x_title = svg.append( "text" ).attr( { "class": "x-axis-title" } );
+            axis.x_title.append( "tspan" ).text( props.x_axis.title.text );
+
+            axis.y_title = svg.append( "text" ).attr( { "class": "y-axis-title" } );
+            axis.y_title.append( "tspan" ).text( props.y_axis.title.text );
         },
 
         setGraphs = function()
         {
-            var graph, props;
+            var graph, param;
 
-            d3Try.forEach( data, function( item, i )
+            d3Try.forEach( props.series, function( item, i )
             {
-                props = { graphs_block: graphs_block, domain: domain, tip: tip, svg: svg, margin: margin };
+                param = { graphs_block: graphs_block, domain: domain, tip: tip, svg: svg, margin: margin };
 
                 curr_color >= colors.length ? curr_color = 0 : null;
 
-                props.color = colors[ ++curr_color ];
+                param.color = colors[ ++curr_color ];
 
-                graph = d3Try.Graph( item.data, props );
+                graph = d3Try.Graph( item.data, param );
                 graphs.push( graph );
             });
         },
@@ -128,6 +141,15 @@ d3Try.Plot = function( plot, data, props )
             {
                 item.render( w, h );
             });
+
+            var coord_x = axis.x.node().getBBox().width  / 2 + margin.left - ( axis.x_title.node().getBBox().width / 2 ),
+                coord_y = axis.y.node().getBBox().height / 2 + margin.top  + ( axis.y_title.node().getBBox().width / 2 );
+
+            axis.x_title.attr( { x: coord_x, y: orig_h - 15 } );
+            axis.y_title.attr( { transform: "translate(" + 20 + ", " + coord_y + "), rotate(-90)" } );
+
+            title.attr( { x: orig_w / 2, y: 25 } );
+            subtitle.attr( { x: orig_w / 2, y: 25 + title.node().getBBox().height } );
         };
 
     init();

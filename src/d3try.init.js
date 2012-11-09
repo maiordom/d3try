@@ -28,13 +28,16 @@ d3Try.init = function()
     }
 
     Plot = d3Try.Plot( $( ".plot" ).get( 0 ),
-    [
-        { data: data[ 0 ] }, { data: data[ 1 ] }, { data: data[ 2 ] }, { data: data[ 3 ] }, { data: data[ 4 ] }
-    ],
     {
         w: root.width()  - 110,
         h: root.height() - 110,
-        margin: { top: 50, right: 50, bottom: 50, left: 50 }
+
+        title:    { text: "Graph" },
+        subtitle: { text: "d3Try" },
+        x_axis:   { title: { text: "x axis title" } },
+        y_axis:   { title: { text: "y axis title" } },
+        series:   [ { data: data[ 0 ] }, { data: data[ 1 ] }, { data: data[ 2 ] }, { data: data[ 3 ] }, { data: data[ 4 ] } ],
+        margin:   { top: 60, right: 50, bottom: 50, left: 60 }
     });
 
     root.resize( function()
