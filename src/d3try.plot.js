@@ -12,7 +12,6 @@ d3Try.Plot = function( plot, props )
         init = function()
         {
             d3Try.extend( margin, props.margin );
-            d3Try.extend( tip,    props.tip );
 
             setSvg();
             setDomain();
