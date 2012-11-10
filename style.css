@@ -13,15 +13,28 @@ BODY {
     min-width: 500px;
     }
 
+.svg {
+    font-family: Arial, Verdana, sans-serif;
+    font-size: 11px;
+}
+
 .plot {
     }
 
-.plot-1 {
+#plot-1 {
     float: left;
     margin: 50px;
     }
 
 .tooltip {
+    }
+
+.legend {
+    fill: #fff;
+    }
+
+.legend path {
+    stroke-width: 3;
     }
 
 .title {
@@ -47,9 +60,7 @@ BODY {
     }
 
 .tooltip rect {
-    fill: black;
     stroke-width: 2px;
-    stroke: #00A9DD;
     opacity: 0.75;
     }
 
@@ -62,11 +73,6 @@ BODY {
     stroke-width: 0.5px;
     }
 
-.svg {
-    font-family: Arial, Verdana, sans-serif;
-    font-size: 11px;
-    }
-
 .axis line {
     shape-rendering: crispedges;
     stroke-opacity: 0.1;
@@ -74,7 +80,7 @@ BODY {
     stroke-width: 1px;
     }
 
-.axis text {
+.axis {
     fill: #999;
     }
 

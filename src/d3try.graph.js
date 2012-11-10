@@ -1,4 +1,4 @@
-d3Try.Graph = function( data, Plot )
+d3Try.Graph = function( item, Plot )
 {
     var tip    = Plot.tip,
         svg    = Plot.svg,
@@ -14,7 +14,7 @@ d3Try.Graph = function( data, Plot )
                 .append( "path" )
                 .attr( "class", "line" )
                 .attr( "transform", "translate(" + margin.left + "," + margin.top + ")" )
-                .attr( "stroke", Plot.color );
+                .attr( "stroke", item.color );
 
             setDots();
         },
@@ -28,7 +28,7 @@ d3Try.Graph = function( data, Plot )
                 .x( function( d, i ) { return x( d.x ); } )
                 .y( function( d, i ) { return y( d.y ); } );
 
-            path.attr( "d", line( data ) );
+            path.attr( "d", line( item.data ) );
 
             renderDots();
         },
@@ -41,10 +41,10 @@ d3Try.Graph = function( data, Plot )
 
             dots = dots_block
                 .selectAll( ".dot" )
-                .data( data )
+                .data( item.data )
                 .enter()
                 .append( "circle" )
-                .attr( { class: "dot", r: 3, fill: Plot.color } );
+                .attr( { class: "dot", r: 3, fill: item.color } );
         },
 
         renderDots = function()
@@ -64,8 +64,8 @@ d3Try.Graph = function( data, Plot )
 
         onDotMouseOver = function( d, i )
         {
-            var item = d3.select( this ),
-                data = item.data()[ 0 ];
+            var node = d3.select( this ),
+                data = node.data()[ 0 ];
 
             tip.x.text( "x: " + data.x );
             tip.y.text( "y: " + data.y );
@@ -74,8 +74,8 @@ d3Try.Graph = function( data, Plot )
                 x_h  = tip.x.node().getBBox().height + 10,
                 y_w  = tip.y.node().getBBox().width  + 15,
                 y_h  = tip.y.node().getBBox().height + 10,
-                cx   = parseInt( item.attr( "cx" ) ) + 5 + margin.left,
-                cy   = parseInt( item.attr( "cy" ) ) - 2 * x_h - 5 + margin.top;
+                cx   = parseInt( node.attr( "cx" ) ) + 5 + margin.left,
+                cy   = parseInt( node.attr( "cy" ) ) - 2 * x_h - 5 + margin.top;
 
             tip.g.attr( "transform", "translate(" + cx + "," + cy + ")" );
             tip.x.attr( "x", 5 ).attr( "y", 15 );
@@ -84,10 +84,10 @@ d3Try.Graph = function( data, Plot )
             tip.rect
                 .attr( "width", Math.max( x_w, y_w ) + "px" )
                 .attr( "height", 2 * x_h + "px" )
-                .style( "stroke", Plot.color );
+                .attr( "stroke", item.color );
 
             tip.g.attr( "visibility", "visible" );
-            item.transition().attr( "r", 5 );
+            node.transition().attr( "r", 5 );
         },
 
         onDotMouseOut = function( d, i )

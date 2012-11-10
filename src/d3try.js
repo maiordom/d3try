@@ -1,5 +1,13 @@
 d3Try =
 {
+    extend: function( obj, target )
+    {
+        for ( var i in target )
+        {
+            obj[ i ] = target[ i ];
+        }
+    },
+
     domain: function( data, name )
     {
         var domain  = d3.extent( data, function( d, i ) { return d[ name ]; } ),

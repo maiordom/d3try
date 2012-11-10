@@ -1,8 +1,7 @@
-
 d3Try.Plot = function( plot, props )
 {
-    var w, h, svg, x, y, line, gradient_block, graphs_block, orig_w, orig_h, curr_color = 0,
-        title, subtitle,
+    var w, h, x, y, line, orig_w, orig_h,
+        svg,title, subtitle, legend, gradient_block, graphs_block,
         graphs = [],
         domain = {},
         axis   = {},
@@ -12,9 +11,8 @@ d3Try.Plot = function( plot, props )
 
         init = function()
         {
-            $.extend( margin, props.margin );
-            $.extend( colors, props.colors );
-            $.extend( tip,    props.tip );
+            d3Try.extend( margin, props.margin );
+            d3Try.extend( tip,    props.tip );
 
             setSvg();
             setDomain();
@@ -22,12 +20,14 @@ d3Try.Plot = function( plot, props )
             setGradient();
             setHelpers();
             setGraphs();
+            setLegend();
             render();
         },
 
         setSvg = function()
         {
             svg = d3.select( plot ).append( "svg" ).attr( "class", "svg" );
+            plot = d3.select( plot );
         },
 
         setDomain = function()
@@ -51,6 +51,20 @@ d3Try.Plot = function( plot, props )
             axis.y_data = d3.svg.axis().scale( y ).orient( "left" );
         },
 
+        setLegend = function()
+        {
+            var item;
+
+            legend = svg.append( "g" ).attr( { "class": "legend", "transform": "translate(0, 40)" } );
+
+            d3Try.forEach( props.series, function( val, i )
+            {
+                item = legend.append( "g" ).attr( { "class": "legend-item", "transform": "translate(0, " + ( i ? i * 16 : 0 ) + ")" } );
+                item.append( "path" ).attr( { "d": "M 0 0 15 0 z", "stroke": val.color, transform: "translate(0, -3)" } );
+                item.append( "text" ).attr( "x", 20 ).text( val.name ? val.name : "series-" + i );
+            });
+        },
+
         setGradient = function()
         {
             var gradient = svg.append( "linearGradient" )
@@ -60,7 +74,7 @@ d3Try.Plot = function( plot, props )
             gradient.append( "stop" ).attr( { offset: 1, "stop-color": "rgb(31, 31, 31)", "stop-opacity": 1 } );
 
             gradient_block = svg.append( "rect" )
-                .attr( { class: "gradient", rx: 15, ry: 15, fill: "url(#gradient-1)", x: 0 , y: 0, width: orig_w, height: orig_h } );
+                .attr( { "class": "gradient", rx: 15, ry: 15, fill: "url(#gradient-1)", x: 0 , y: 0, width: orig_w, height: orig_h } );
         },
 
         setHelpers = function()
@@ -90,29 +104,23 @@ d3Try.Plot = function( plot, props )
 
         setGraphs = function()
         {
-            var graph, param;
+            var graph, params, color = 0;
+
+            params = { graphs_block: graphs_block, domain: domain, tip: tip, svg: svg, margin: margin };
 
             d3Try.forEach( props.series, function( item, i )
             {
-                param = { graphs_block: graphs_block, domain: domain, tip: tip, svg: svg, margin: margin };
+                color >= colors.length ? color = 0 : null;
 
-                curr_color >= colors.length ? curr_color = 0 : null;
-
-                param.color = colors[ ++curr_color ];
-
-                graph = d3Try.Graph( item.data, param );
+                item.color = colors[ ++color ];
+                graph = d3Try.Graph( item, params );
                 graphs.push( graph );
             });
         },
 
         render = function()
         {
-            plot.style.width  = orig_w + "px";
-            plot.style.height = orig_h + "px";
-
-            svg
-                .attr( { width: orig_w, height: orig_h } )
-                .style( { width: orig_w, height: orig_h } );
+            svg.attr( { width: orig_w, height: orig_h } );
 
             gradient_block.attr( { width: orig_w, height: orig_h } );
 
@@ -150,6 +158,10 @@ d3Try.Plot = function( plot, props )
 
             title.attr( { x: orig_w / 2, y: 25 } );
             subtitle.attr( { x: orig_w / 2, y: 25 + title.node().getBBox().height } );
+
+            coord_x = orig_w - margin.right - legend.node().getBBox().width;
+
+            legend.attr( { transform: "translate(" + coord_x + ", " + margin.top + ")" } );
         };
 
     init();

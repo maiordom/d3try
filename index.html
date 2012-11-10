@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <title></title>
+    <title>d3Try</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -11,9 +11,8 @@
 
 <body>
 
-<div class="plot plot-1"></div>
+<div class="plot" id="plot-1"></div>
 
-<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
 <script src="http://d3js.org/d3.v2.min.js"></script>
 
 <script src="src/d3try.js"></script>
@@ -22,10 +21,10 @@
 <script src="src/d3try.init.js"></script>
 
 <script>
-    $( document ).ready( function()
+    window.onload = function()
     {
         d3Try.init();
-    });
+    };
 </script>
 
 </body>

@@ -1,6 +1,6 @@
 d3Try.init = function()
 {
-    var data = [ [], [], [], [], [] ], root = $( window ), Plot;
+    var data = [ [], [], [], [], [] ], root = window, Plot, params;
 
     for ( var i = -20, ilen = 20; i < ilen; i += 2 )
     {
@@ -27,22 +27,43 @@ d3Try.init = function()
         data[ 4 ].push( { x: i, y: i * i * 0.422 - i * 0.39876 + 200 } );
     }
 
-    Plot = d3Try.Plot( $( ".plot" ).get( 0 ),
+    function getParams()
     {
-        w: root.width()  - 110,
-        h: root.height() - 110,
+        var w = root.innerWidth  - 110,
+            h = root.innerHeight - 110;
 
-        title:    { text: "Graph" },
+        w = w < 500 ? 500 : w;
+        h = h < 500 ? 500 : h;
+
+        return [ w, h ];
+    }
+
+    params = getParams();
+
+    Plot = d3Try.Plot( document.getElementById( "plot-1" ),
+    {
+        w: params[ 0 ], h: params[ 1 ],
+
+        title: { text: "Graph" },
         subtitle: { text: "d3Try" },
-        x_axis:   { title: { text: "x axis title" } },
-        y_axis:   { title: { text: "y axis title" } },
-        series:   [ { data: data[ 0 ] }, { data: data[ 1 ] }, { data: data[ 2 ] }, { data: data[ 3 ] }, { data: data[ 4 ] } ],
-        margin:   { top: 60, right: 50, bottom: 50, left: 60 }
+        x_axis: { title: { text: "x axis title" } },
+        y_axis: { title: { text: "y axis title" } },
+        margin: { top: 60, right: 50, bottom: 50, left: 60 },
+        series:
+        [
+            { name: "Tokyo", data: data[ 0 ] },
+            { data: data[ 1 ] },
+            { data: data[ 2 ] },
+            { data: data[ 3 ] },
+            { data: data[ 4 ] }
+        ]
     });
 
-    root.resize( function()
+    root.onresize = function()
     {
-        Plot.setData( root.width() - 110, root.height() - 110 );
+        params = getParams();
+
+        Plot.setData( params[ 0 ], params[ 1 ] );
         Plot.render();
-    });
+    };
 };
