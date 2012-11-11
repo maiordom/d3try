@@ -75,10 +75,10 @@ d3Try.Graph = function( item, Plot )
             legend
                 .on( "mouseover", onLegendMouseOver )
                 .on( "mouseout",  onLegendMouseOut )
-                .on( "mousedown", onPathClick );
+                .on( "mousedown", onLegendClick );
         },
 
-        onPathClick = function()
+        onLegendClick = function()
         {
             if ( is_vis )
             {
