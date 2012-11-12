@@ -7,12 +7,12 @@ d3Try.init = function()
         data[ 0 ].push( { x: i, y: i * i * 0.422 - i * 0.39876 - 2 } );
     }
 
-    for ( i = -30, ilen = 30; i < ilen; i += 2 )
+    for ( i = -30, ilen = 30; i < ilen; i += 6 )
     {
         data[ 1 ].push( { x: i, y: i * 0.6 + 3 } );
     }
 
-    for ( i = 20, ilen = 50; i < ilen; i += 2 )
+    for ( i = 20, ilen = 50; i < ilen; i += 3 )
     {
         data[ 2 ].push( { x: i, y: Math.exp( i / 10 ) + 30 } );
     }

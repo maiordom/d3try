@@ -62,7 +62,7 @@ d3Try.Graph = function( item, Plot )
                 .data( item.data )
                 .enter()
                 .append( "circle" )
-                .attr( { class: "dot", r: 3, fill: item.color } );
+                .attr( { class: "dot", r: 4, fill: item.color } );
         },
 
         bindEvents = function()
@@ -139,13 +139,13 @@ d3Try.Graph = function( item, Plot )
                 .attr( "stroke", item.color );
 
             Plot.tip.g.attr( "visibility", "visible" );
-            node.transition().attr( "r", 5 );
+            node.transition().attr( "r", 6 );
         },
 
         onDotMouseOut = function( d, i )
         {
             Plot.tip.g.attr( "visibility", "hidden" );
-            d3.select( this ).transition().attr( "r", 3 );
+            d3.select( this ).transition().attr( "r", 4 );
         },
 
         onDotMouseClick = function( d, i )
