@@ -56,7 +56,7 @@ d3Try.Plot = function( plot, props )
             gradient.append( "stop" ).attr( { offset: 1, "stop-color": "rgb(31, 31, 31)", "stop-opacity": 1 } );
 
             gradient_block = svg.append( "rect" )
-                .attr( { "class": "gradient", rx: 15, ry: 15, fill: "url(#gradient-1)", x: 0 , y: 0, width: orig_w, height: orig_h } );
+                .attr( { "class": "gradient", rx: 15, ry: 15, fill: "url(#gradient-1)", x: 0, y: 0, width: orig_w, height: orig_h } );
         },
 
         setHelpers = function()
@@ -65,7 +65,7 @@ d3Try.Plot = function( plot, props )
             axis.y = svg.append( "g" ).attr( "class", "y axis" );
 
             legends = svg.append( "g" ).attr( { "class": "legends", "transform": "translate(0, 40)" } );
-            graphs_block = svg.append( "g" ).attr( "class", "graphs" );
+            graphs_block = svg.append( "g" ).attr( { "class": "graphs", "transform": "translate(" + margin.left + "," + margin.top + ")" } );
 
             tip.g    = svg.append( "g" ).attr( { "class": "tooltip", "visibility": "hidden" } );
             tip.rect = tip.g.append( "rect" ).attr( { "rx": 5, "ry": 5 } );

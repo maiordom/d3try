@@ -13,10 +13,7 @@ d3Try.Graph = function( item, Plot )
         cache = function()
         {
             graph = Plot.graphs_block.append( "g" ).attr( "class", "graph" );
-
-            path = graph.append( "path" )
-                .attr( "stroke", item.color )
-                .attr( "transform", "translate(" + Plot.margin.left + "," + Plot.margin.top + ")" );
+            path  = graph.append( "path" ).attr( "stroke", item.color );
         },
 
         setLegend = function()
@@ -53,9 +50,7 @@ d3Try.Graph = function( item, Plot )
 
         setDots = function()
         {
-            dots_block = graph.append( "g" )
-                .attr( "class", "dots" )
-                .attr( "transform", "translate(" + Plot.margin.left + "," + Plot.margin.top + ")" );
+            dots_block = graph.append( "g" ).attr( "class", "dots" );
 
             dots = dots_block
                 .selectAll( ".dot" )
