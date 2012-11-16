@@ -1,7 +1,7 @@
 d3try
 =====
 
-d3js examples
+d3.js examples
 
 demo
 ----
