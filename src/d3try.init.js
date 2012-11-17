@@ -48,7 +48,6 @@ d3Try.init = function()
         subtitle: { text: "d3Try" },
         x_axis: { title: { text: "x axis title" } },
         y_axis: { title: { text: "y axis title" } },
-        margin: { top: 60, right: 50, bottom: 50, left: 60 },
         series:
         [
             { name: "Tokyo", data: data[ 0 ] },

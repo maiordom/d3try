@@ -1,4 +1,4 @@
-d3Try.Graph = function( item, Plot )
+d3Try.Graph = function( data, config )
 {
     var is_vis = true, state, legend, graph, dots, x, y, line, path, dots_block,
 
@@ -12,36 +12,36 @@ d3Try.Graph = function( item, Plot )
 
         cache = function()
         {
-            graph = Plot.graphs_block.append( "g" ).attr( "class", "graph" );
-            path  = graph.append( "path" ).attr( "stroke", item.color );
+            graph = config.graphs_block.append( "g" ).attr( "class", "graph" );
+            path  = graph.append( "path" ).attr( "stroke", data.color );
         },
 
         setLegend = function()
         {
-            legend = Plot.legends.append( "g" )
+            legend = config.legends.append( "g" )
                 .attr( "class", "legend-item" )
-                .attr( "transform", "translate(0, " + ( item.index ? item.index * 16 : 0 ) + ")" );
+                .attr( "transform", "translate(0, " + ( data.index ? data.index * 16 : 0 ) + ")" );
 
             legend.append( "path" )
                 .attr( "d", "M 0 0 15 0 z" )
-                .attr( "stroke", item.color )
+                .attr( "stroke", data.color )
                 .attr( "transform", "translate(0, -3)" );
 
             legend.append( "text" )
                 .attr( "x", 20 )
-                .text( item.name ? item.name : "series-" + item.index );
+                .text( data.name ? data.name : "series-" + data.index );
         },
 
         render = function( w, h )
         {
-            x = d3.scale.linear().domain( Plot.domain.x ).range( [ 0, w ] );
-            y = d3.scale.linear().domain( Plot.domain.y ).range( [ h, 0 ] );
+            x = d3.scale.linear().domain( config.domain.x ).range( [ 0, w ] );
+            y = d3.scale.linear().domain( config.domain.y ).range( [ h, 0 ] );
 
             line = d3.svg.line()
                 .x( function( d, i ) { return x( d.x ); } )
                 .y( function( d, i ) { return y( d.y ); } );
 
-            path.attr( "d", line( item.data ) );
+            path.attr( "d", line( data.data ) );
 
             dots
                 .attr( "cx", function( d, i ) { return x( d.x ); } )
@@ -54,10 +54,10 @@ d3Try.Graph = function( item, Plot )
 
             dots = dots_block
                 .selectAll( ".dot" )
-                .data( item.data )
+                .data( data.data )
                 .enter()
                 .append( "circle" )
-                .attr( { class: "dot", r: 4, fill: item.color } );
+                .attr( { class: "dot", r: 4, fill: data.color } );
         },
 
         bindEvents = function()
@@ -88,7 +88,7 @@ d3Try.Graph = function( item, Plot )
                 is_vis = true;
                 path.attr( "visibility", "visible" );
                 dots_block.attr( "visibility", "visible" );
-                legend.select( "path" ).attr( "stroke", item.color );
+                legend.select( "path" ).attr( "stroke", data.color );
                 legend.style( "fill", "" );
             }
 
@@ -97,7 +97,7 @@ d3Try.Graph = function( item, Plot )
 
         onLegendMouseOver = function()
         {
-            var color = d3.rgb( item.color ).brighter( 1 ).toString();
+            var color = d3.rgb( data.color ).brighter( 1 ).toString();
 
             path.attr( "stroke", color );
             dots.attr( "fill", color );
@@ -105,41 +105,41 @@ d3Try.Graph = function( item, Plot )
 
         onLegendMouseOut = function()
         {
-            path.attr( "stroke", item.color );
-            dots.attr( "fill", item.color );
+            path.attr( "stroke", data.color );
+            dots.attr( "fill", data.color );
         },
 
         onDotMouseOver = function( d, i )
         {
             var node = d3.select( this ),
-                data = node.data()[ 0 ];
+                info = node.data()[ 0 ];
 
-            Plot.tip.x.text( "x: " + data.x );
-            Plot.tip.y.text( "y: " + data.y );
+            config.tip.x.text( "x: " + info.x );
+            config.tip.y.text( "y: " + info.y );
 
-            var x_w  = Plot.tip.x.node().getBBox().width  + 15,
-                x_h  = Plot.tip.x.node().getBBox().height + 10,
-                y_w  = Plot.tip.y.node().getBBox().width  + 15,
-                y_h  = Plot.tip.y.node().getBBox().height + 10,
-                cx   = parseInt( node.attr( "cx" ) ) + 5 + Plot.margin.left,
-                cy   = parseInt( node.attr( "cy" ) ) - 2 * x_h - 5 + Plot.margin.top;
+            var x_w  = config.tip.x.node().getBBox().width  + 15,
+                x_h  = config.tip.x.node().getBBox().height + 10,
+                y_w  = config.tip.y.node().getBBox().width  + 15,
+                y_h  = config.tip.y.node().getBBox().height + 10,
+                cx   = parseInt( node.attr( "cx" ) ) + 5 + config.margin.left,
+                cy   = parseInt( node.attr( "cy" ) ) - 2 * x_h - 5 + config.margin.top;
 
-            Plot.tip.g.attr( "transform", "translate(" + cx + "," + cy + ")" );
-            Plot.tip.x.attr( "x", 5 ).attr( "y", 15 );
-            Plot.tip.y.attr( "x", 5 ).attr( "y", x_h + 15 );
+            config.tip.g.attr( "transform", "translate(" + cx + "," + cy + ")" );
+            config.tip.x.attr( "x", 5 ).attr( "y", 15 );
+            config.tip.y.attr( "x", 5 ).attr( "y", x_h + 15 );
 
-            Plot.tip.rect
+            config.tip.rect
                 .attr( "width", Math.max( x_w, y_w ) + "px" )
                 .attr( "height", 2 * x_h + "px" )
-                .attr( "stroke", item.color );
+                .attr( "stroke", data.color );
 
-            Plot.tip.g.attr( "visibility", "visible" );
+            config.tip.g.attr( "visibility", "visible" );
             node.transition().attr( "r", 6 );
         },
 
         onDotMouseOut = function( d, i )
         {
-            Plot.tip.g.attr( "visibility", "hidden" );
+            config.tip.g.attr( "visibility", "hidden" );
             d3.select( this ).transition().attr( "r", 4 );
         },
 

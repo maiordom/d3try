@@ -1,19 +1,17 @@
-d3Try.Plot = function( plot, props )
+d3Try.Plot = function( plot, config )
 {
     var w, h, orig_w, orig_h,
         x, y, line,
         svg, title, subtitle, legends, gradient_block, graphs_block,
-        graphs = [], domain = {}, axis = {},
-        margin = { top: 0, right: 0, bottom: 0, left: 0 },
-        tip    = { stroke: "#00A9DD" },
+        graphs = [], domain = {}, axis = {}, tip = {},
+        margin = { top: 60, right: 50, bottom: 50, left: 60 },
         colors = [ "#DDDF0D", "#7798BF", "#55BF3B", "#DF5353", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee" ],
 
         init = function()
         {
-            d3Try.extend( margin, props.margin );
             setSvg();
             setDomain();
-            setData( props.w, props.h );
+            setData( config.w, config.h );
             setGradient();
             setHelpers();
             setGraphs();
@@ -28,7 +26,7 @@ d3Try.Plot = function( plot, props )
 
         setDomain = function()
         {
-            domain.data = d3Try.copyArray( props.series );
+            domain.data = d3Try.copyArray( config.series );
             domain.x = d3Try.domain( domain.data, "x" );
             domain.y = d3Try.domain( domain.data, "y" );
         },
@@ -72,19 +70,19 @@ d3Try.Plot = function( plot, props )
             tip.x    = tip.g.append( "text" );
             tip.y    = tip.g.append( "text" );
 
-            title        = svg.append( "text" ).attr( "class", "title" ).text( props.title.text );
-            subtitle     = svg.append( "text" ).attr( "class", "subtitle" ).text( props.subtitle.text );
-            axis.x_title = svg.append( "text" ).attr( "class", "x-axis-title" ).text( props.x_axis.title.text );
-            axis.y_title = svg.append( "text" ).attr( "class", "y-axis-title" ).text( props.y_axis.title.text );
+            title        = svg.append( "text" ).attr( "class", "title" ).text( config.title.text );
+            subtitle     = svg.append( "text" ).attr( "class", "subtitle" ).text( config.subtitle.text );
+            axis.x_title = svg.append( "text" ).attr( "class", "x-axis-title" ).text( config.x_axis.title.text );
+            axis.y_title = svg.append( "text" ).attr( "class", "y-axis-title" ).text( config.y_axis.title.text );
         },
 
         setGraphs = function()
         {
             var graph, params, color = 0;
 
-            params = { legends: legends, graphs_block: graphs_block, domain: domain, tip: tip, svg: svg, margin: margin };
+            params = { legends: legends, graphs_block: graphs_block, domain: domain, tip: tip, margin: margin };
 
-            d3Try.forEach( props.series, function( item, i )
+            d3Try.forEach( config.series, function( item, i )
             {
                 color >= colors.length ? color = 0 : null;
 
