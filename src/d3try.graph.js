@@ -55,7 +55,7 @@ d3Try.Graph = function( data, config ) {
     }
 
     function bindEvents() {
-        dots
+        dotsBlock
             .on( "mouseover", onDotMouseOver )
             .on( "mouseout",  onDotMouseOut );
 
@@ -96,7 +96,11 @@ d3Try.Graph = function( data, config ) {
     }
 
     function onDotMouseOver( d, i ) {
-        var node = d3.select( this ),
+        if ( d3.select( d3.event.target ).attr( "class") !== "dot" ) {
+            return;
+        }
+
+        var node = d3.select( d3.event.target ),
             info = node.data()[ 0 ];
 
         tip.x.text( "x: " + info.x );
@@ -122,8 +126,12 @@ d3Try.Graph = function( data, config ) {
     }
 
     function onDotMouseOut( d, i ) {
+        if ( d3.select( d3.event.target ).attr( "class") !== "dot" ) {
+            return;
+        }
+
         tip.g.attr( "visibility", "hidden" );
-        d3.select( this ).transition().attr( "r", 4 );
+        d3.select( d3.event.target ).transition().attr( "r", 4 );
     }
 
     init();
