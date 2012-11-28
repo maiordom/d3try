@@ -1,7 +1,9 @@
+(function( global ) {
+d3Try = {};
 d3Try.Plot = function( plot, config )
 {
     var w, h, wOrig, hOrig,
-        x, y, line,
+        x, y,
         svg, title, subtitle, legends, gradientBlock, graphsBlock,
         graphs = [], domain = {}, axis = {}, tip = {},
         margin = { top: 60, right: 50, bottom: 50, left: 60 },
@@ -45,8 +47,9 @@ d3Try.Plot = function( plot, config )
         var gradient = svg.append( "linearGradient" )
             .attr( { x1: 0, y1: 0, x2: 0, y2: h, "gradientUnits": "userSpaceOnUse", id: "gradient-1" } );
 
-        gradient.append( "stop" ).attr( { offset: 0, "stop-color": "rgb(96, 96, 96)", "stop-opacity": 1 } );
-        gradient.append( "stop" ).attr( { offset: 1, "stop-color": "rgb(31, 31, 31)", "stop-opacity": 1 } );
+        d3Try.forEach( config.gradientPlot, function( item, i ) {
+            gradient.append( "stop" ).attr( item );
+        });
 
         gradientBlock = svg.append( "rect" )
             .attr( { "class": "gradient", rx: 15, ry: 15, fill: "url(#gradient-1)", x: 0, y: 0, width: wOrig, height: hOrig } );
@@ -73,7 +76,7 @@ d3Try.Plot = function( plot, config )
     function initGraphs() {
         var graph, params, color = 0;
 
-        params = { legends: legends, graphsBlock: graphsBlock, domain: domain, tip: tip, margin: margin };
+        params = { legends: legends, graphsBlock: graphsBlock, domain: domain, margin: margin };
 
         d3Try.forEach( config.series, function( item, i ) {
             color >= colors.length ? color = 0 : null;
@@ -96,7 +99,7 @@ d3Try.Plot = function( plot, config )
         var coordX = wOrig - margin.right - legends.node().getBBox().width;
 
         legends.attr( { transform: "translate(" + coordX + ", " + margin.top + ")" } );
-    };
+    }
 
     function drawAxis() {
         axis.x
@@ -138,3 +141,164 @@ d3Try.Plot = function( plot, config )
         setData: setData
     };
 };
+
+d3Try.Graph = function( data, config ) {
+    var legend, graph, dots, x, y, line, path, dotsBlock;
+
+    function init() {
+        cache();
+        drawDots();
+        drawLegend();
+    }
+
+    function cache() {
+        graph = config.graphsBlock.append( "g" ).attr( "class", "graph" );
+        path  = graph.append( "path" ).attr( "stroke", data.color );
+    }
+
+    function drawLegend() {
+        legend = config.legends.append( "g" )
+            .attr( "class", "legend-item" )
+            .attr( "transform", "translate(0, " + ( data.index ? data.index * 16 : 0 ) + ")" );
+
+        legend.append( "path" )
+            .attr( "d", "M 0 0 15 0 z" )
+            .attr( "stroke", data.color )
+            .attr( "transform", "translate(0, -3)" );
+
+        legend.append( "text" )
+            .attr( "x", 20 )
+            .text( data.name ? data.name : "series-" + data.index );
+    }
+
+    function drawGraph( w, h ) {
+        x = d3.scale.linear().domain( config.domain.x ).range( [ 0, w ] );
+        y = d3.scale.linear().domain( config.domain.y ).range( [ h, 0 ] );
+
+        line = d3.svg.line()
+            .x( function( d, i ) { return x( d.x ); } )
+            .y( function( d, i ) { return y( d.y ); } );
+
+        path.attr( "d", line( data.data ) );
+
+        dots
+            .attr( "cx", function( d, i ) { return x( d.x ); } )
+            .attr( "cy", function( d, i ) { return y( d.y ); } );
+    }
+
+    function drawDots() {
+        dotsBlock = graph.append( "g" ).attr( "class", "dots" );
+
+        dots = dotsBlock
+            .selectAll( ".dot" )
+            .data( data.data )
+            .enter()
+            .append( "circle" )
+            .attr( { "class": "dot", r: 4, fill: data.color } );
+    }
+
+    init();
+
+    return {
+        render: drawGraph
+    };
+};
+
+d3Try.init = function() {
+    var data = [ [], [], [], [], [] ], Plot, config;
+
+    for ( var i = -20, ilen = 20; i < ilen; i += 3 ) {
+        data[ 0 ].push( { x: i, y: i * i * 0.422 - i * 0.39876 + 40 } );
+    }
+
+    for ( i = -30, ilen = 30; i < ilen; i += 6 ) {
+        data[ 1 ].push( { x: i, y: i * 0.6 + 3 } );
+    }
+
+    for ( i = 20, ilen = 50; i < ilen; i += 4 ) {
+        data[ 2 ].push( { x: i, y: Math.exp( i / 10 ) + 30 } );
+    }
+
+    for ( i = 0, ilen = 15; i < ilen; i += 3 ) {
+        data[ 3 ].push( { x: i, y: - i * i * 0.422 - i * 0.39876 + 200 } );
+    }
+
+    for ( i = 0, ilen = 20; i < ilen; i += 3 ) {
+        data[ 4 ].push( { x: i, y: i * i * 0.422 - i * 0.39876 + 200 } );
+    }
+
+    config = {
+        gradientPlot: [
+            { offset: 0, "stop-color": "rgb(96, 96, 96)", "stop-opacity": 1 },
+            { offset: 1, "stop-color": "rgb(31, 31, 31)", "stop-opacity": 1 }
+        ],
+        width:  800,
+        height: 500,
+
+        title: {
+            text: "Graph"
+        },
+        subtitle: {
+            text: "d3Try"
+        },
+        xAxis: {
+            title: {
+                text: "x axis title"
+            }
+        },
+        yAxis: {
+            title: {
+                text: "y axis title"
+            }
+        },
+        series: [
+            { name: "Tokyo", data: data[ 0 ] },
+            { data: data[ 1 ] },
+            { data: data[ 2 ] },
+            { data: data[ 3 ] },
+            { data: data[ 4 ] }
+        ]
+    };
+
+    Plot = d3Try.Plot( document.getElementById( "plot-1" ), config );
+};
+
+d3Try.extend = function( obj, target ) {
+    for ( var i in target ) {
+        obj[ i ] = target[ i ];
+    }
+};
+
+d3Try.domain = function( data, name ) {
+    var domain  = d3.extent( data, function( d, i ) { return d[ name ]; } ),
+        left    = domain[ 0 ],
+        right   = domain[ 1 ],
+        padding = Math.abs( left - right ) * 0.2;
+
+    domain[ 0 ] = left  + ( left  >= 0 ? padding : - padding );
+    domain[ 1 ] = right + ( right >= 0 ? padding : - padding );
+
+    return domain;
+};
+
+d3Try.forEach = function( obj, callback, ctx ) {
+    var i = 0, length = obj.length;
+
+    for ( ; i < length; i++ ) {
+        if ( callback.call( ctx || obj[ i ], obj[ i ], i ) === false ) { break; }
+    }
+};
+
+d3Try.copyArray = function( data ) {
+    var arr = [];
+
+    d3Try.forEach( data, function( item, i ) {
+        d3Try.forEach( item.data, function( item, i ) {
+            arr.push( item );
+        });
+    });
+
+    return arr;
+};
+
+})( window );

@@ -4,7 +4,7 @@ d3Try.Graph = function( data, config ) {
     function init() {
         cache();
         drawDots();
-        drawLegends();
+        drawLegend();
         bindEvents();
     }
 
@@ -13,7 +13,7 @@ d3Try.Graph = function( data, config ) {
         path  = graph.append( "path" ).attr( "stroke", data.color );
     }
 
-    function drawLegends() {
+    function drawLegend() {
         legend = config.legends.append( "g" )
             .attr( "class", "legend-item" )
             .attr( "transform", "translate(0, " + ( data.index ? data.index * 16 : 0 ) + ")" );
@@ -51,7 +51,7 @@ d3Try.Graph = function( data, config ) {
             .data( data.data )
             .enter()
             .append( "circle" )
-            .attr( { class: "dot", r: 4, fill: data.color } );
+            .attr( { "class": "dot", r: 4, fill: data.color } );
     }
 
     function bindEvents() {

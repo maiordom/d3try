@@ -1,0 +1,35 @@
+HTML,
+BODY    { height: 100%; width: 100%; }
+*       { padding: 0; margin: 0; }
+BODY    { min-height: 500px; min-width: 500px; }
+#plot-1 { float: left; margin: 50px; }
+
+.svg { font-family: Arial, Verdana, sans-serif; font-size: 11px; }
+    .svg path { fill: none; }
+
+    .axis { fill: #999; }
+        .axis g {}
+            .axis line { shape-rendering: crispedges; stroke-opacity: 0.1; stroke: white; stroke-width: 1px; stroke-dasharray: 3 3; }
+            .axis path { stroke: #999; stroke-width: 1; }
+
+    .graphs {}
+        .graph {}
+            .graph path { stroke-width: 2px; }
+            .graph .dots {}
+                .graph .dot { stroke: #333; stroke-width: 0.5px; }
+
+    .legends { fill: #fff; }
+        .legend-item  { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -o-user-select: none; user-select: none; }
+            .legends path { stroke-width: 3; }
+            .legends text {}
+
+    .title { font-size: 14px; fill: #fff; text-anchor: middle; }
+    .subtitle { fill: #DDD; text-anchor: middle; }
+
+    .title,
+    .subtitle,
+    .x-axis-title,
+    .y-axis-title { font-size: 12px; font-family: Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif; }
+
+    .x-axis-title,
+    .y-axis-title { font-weight: bold; fill: #AAA !important; }
