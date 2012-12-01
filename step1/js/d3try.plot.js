@@ -5,9 +5,9 @@ d3Try.Plot = function( plot, config )
         margin = { top: 60, right: 50, bottom: 50, left: 60 };
 
     function init() {
-        drawCtx();
         setDomain();
-        setData( config.width, config.height );
+        setParams( config.width, config.height );
+        drawCtx();
         drawGradient();
         drawHelpers();
         draw();
@@ -24,7 +24,7 @@ d3Try.Plot = function( plot, config )
         domain.y = d3Try.domain( data, "y" );
     }
 
-    function setData( width, height ) {
+    function setParams( width, height ) {
         wOrig = width;
         hOrig = height;
         w = width  - ( margin.right + margin.left );
@@ -51,7 +51,7 @@ d3Try.Plot = function( plot, config )
 
     function drawHelpers() {
         axis.xBlock = svg.append( "g" ).attr( "class", "x axis" );
-        axis.yBlock =  svg.append( "g" ).attr( "class", "y axis" );
+        axis.yBlock = svg.append( "g" ).attr( "class", "y axis" );
     }
 
     function drawPlot() {
@@ -84,6 +84,6 @@ d3Try.Plot = function( plot, config )
 
     return {
         draw: draw,
-        setData: setData
+        setParams: setParams
     };
 };

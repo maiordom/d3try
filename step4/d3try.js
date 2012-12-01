@@ -73,7 +73,7 @@ d3Try.init = function() {
     root.onresize = function() {
         params = getParams();
 
-        Plot.setData( params[ 0 ], params[ 1 ] );
+        Plot.setParams( params[ 0 ], params[ 1 ] );
         Plot.draw();
     };
 };
@@ -118,9 +118,9 @@ d3Try.Plot = function( plot, config )
         colors = [ "#DDDF0D", "#7798BF", "#55BF3B", "#DF5353", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee" ];
 
     function init() {
-        drawCtx();
         setDomain();
-        setData( config.width, config.height );
+        setParams( config.width, config.height );
+        drawCtx();
         drawGradient();
         drawHelpers();
         initGraphs();
@@ -138,7 +138,7 @@ d3Try.Plot = function( plot, config )
         domain.y = d3Try.domain( data, "y" );
     }
 
-    function setData( width, height ) {
+    function setParams( width, height ) {
         wOrig = width;
         hOrig = height;
         w = width  - ( margin.right + margin.left );
@@ -246,7 +246,7 @@ d3Try.Plot = function( plot, config )
 
     return {
         draw: draw,
-        setData: setData
+        setParams: setParams
     };
 };
 
