@@ -325,7 +325,7 @@ d3Try.init = function() {
             { offset: 0, "stop-color": "rgb(96, 96, 96)", "stop-opacity": 1 },
             { offset: 1, "stop-color": "rgb(31, 31, 31)", "stop-opacity": 1 }
         ],
-        width:  params[ 0 ],
+        width: params[ 0 ],
         height: params[ 1 ],
 
         title: {
