@@ -97,7 +97,7 @@ d3Try.forEach = function( obj, callback, ctx ) {
     }
 };
 
-d3Try.copyArray = function( data ) {
+d3Try.concatArray = function( data ) {
     var arr = [];
 
     d3Try.forEach( data, function( item, i ) {

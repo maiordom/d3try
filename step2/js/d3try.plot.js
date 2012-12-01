@@ -23,7 +23,7 @@ d3Try.Plot = function( plot, config )
     }
 
     function setDomain() {
-        domain.data = d3Try.copyArray( config.series );
+        domain.data = d3Try.concatArray( config.series );
         domain.x = d3Try.domain( domain.data, "x" );
         domain.y = d3Try.domain( domain.data, "y" );
     }
