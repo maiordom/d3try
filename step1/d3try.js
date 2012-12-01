@@ -46,7 +46,7 @@ d3Try.domain = function( data, name ) {
     var domain  = d3.extent( data, function( d, i ) { return d[ name ]; } ),
         left    = domain[ 0 ],
         right   = domain[ 1 ],
-        padding = Math.abs( left - right ) * 0.2;
+        padding = Math.abs( left - right ) * 0.1;
 
     domain[ 0 ] = left  + ( left  >= 0 ? padding : - padding );
     domain[ 1 ] = right + ( right >= 0 ? padding : - padding );
@@ -127,7 +127,7 @@ d3Try.Plot = function( plot, config )
 
     function drawHelpers() {
         axis.xBlock = svg.append( "g" ).attr( "class", "x axis" );
-        axis.yBlock =  svg.append( "g" ).attr( "class", "y axis" );
+        axis.yBlock = svg.append( "g" ).attr( "class", "y axis" );
     }
 
     function drawPlot() {
