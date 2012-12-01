@@ -1,4 +1,3 @@
-d3Try = {};
 d3Try.Plot = function( plot, config )
 {
     var w, h, wOrig, hOrig,

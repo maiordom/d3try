@@ -1,9 +1,8 @@
 <?php
 $files = Array(
-    "d3try.plot.js",
-    "d3try.graph.js",
     "d3try.init.js",
-    "d3try.utils.js"
+    "d3try.plot.js",
+    "d3try.graph.js"
 );
 
 function createBundle( $files, $path, $bundle ) {
