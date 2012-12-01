@@ -99,9 +99,9 @@ d3Try.Plot = function( plot, config )
     }
 
     function setDomain() {
-        domain.data = d3Try.concatArray( config.series );
-        domain.x = d3Try.domain( domain.data, "x" );
-        domain.y = d3Try.domain( domain.data, "y" );
+        var data = d3Try.concatArray( config.series );
+        domain.x = d3Try.domain( data, "x" );
+        domain.y = d3Try.domain( data, "y" );
     }
 
     function setData( width, height ) {
@@ -113,8 +113,8 @@ d3Try.Plot = function( plot, config )
         x = d3.scale.linear().domain( domain.x ).range( [ 0, w ] );
         y = d3.scale.linear().domain( domain.y ).range( [ h, 0 ] );
 
-        axis.xData = d3.svg.axis().scale( x ).orient( "bottom" );
-        axis.yData = d3.svg.axis().scale( y ).orient( "left" );
+        axis.xScale = d3.svg.axis().scale( x ).orient( "bottom" );
+        axis.yScale = d3.svg.axis().scale( y ).orient( "left" );
     }
 
     function drawGradient() {
@@ -162,11 +162,11 @@ d3Try.Plot = function( plot, config )
 
     function drawAxis() {
         axis.x
-            .call( axis.xData )
+            .call( axis.xScale )
             .attr( "transform", "translate(" + margin.left + "," + ( y.range()[ 0 ] + margin.top ) + ")" );
 
         axis.y
-            .call( axis.yData )
+            .call( axis.yScale )
             .attr( "transform", "translate(" + margin.left + "," + margin.top + ")" );
 
         var x2 = axis.x.node().getBBox().width,
