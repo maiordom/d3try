@@ -1,8 +1,6 @@
 d3Try.Plot = function( plot, config )
 {
-    var w, h, wOrig, hOrig,
-        x, y,
-        svg, gradientBlock, graphsBlock,
+    var w, h, wOrig, hOrig, svg, gradientBlock, graphsBlock,
         graphs = [], domain = {}, axis = {},
         margin = { top: 60, right: 50, bottom: 50, left: 60 },
         colors = [ "#DDDF0D", "#7798BF", "#55BF3B", "#DF5353", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee" ];
@@ -34,11 +32,11 @@ d3Try.Plot = function( plot, config )
         w = width  - ( margin.right + margin.left );
         h = height - ( margin.top   + margin.bottom );
 
-        x = d3.scale.linear().domain( domain.x ).range( [ 0, w ] );
-        y = d3.scale.linear().domain( domain.y ).range( [ h, 0 ] );
+        var xScale = d3.scale.linear().domain( domain.x ).range( [ 0, w ] ),
+            yScale = d3.scale.linear().domain( domain.y ).range( [ h, 0 ] );
 
-        axis.xScale = d3.svg.axis().scale( x ).orient( "bottom" );
-        axis.yScale = d3.svg.axis().scale( y ).orient( "left" );
+        axis.x = d3.svg.axis().scale( xScale ).orient( "bottom" );
+        axis.y = d3.svg.axis().scale( yScale ).orient( "left" );
     }
 
     function drawGradient() {
@@ -54,8 +52,8 @@ d3Try.Plot = function( plot, config )
     }
 
     function drawHelpers() {
-        axis.x = svg.append( "g" ).attr( "class", "x axis" );
-        axis.y = svg.append( "g" ).attr( "class", "y axis" );
+        axis.xBlock = svg.append( "g" ).attr( "class", "x axis" );
+        axis.yBlock =  svg.append( "g" ).attr( "class", "y axis" );
 
         graphsBlock = svg.append( "g" ).attr( { "class": "graphs", "transform": "translate(" + margin.left + "," + margin.top + ")" } );
     }
@@ -85,19 +83,19 @@ d3Try.Plot = function( plot, config )
     }
 
     function drawAxis() {
-        axis.x
-            .call( axis.xScale )
-            .attr( "transform", "translate(" + margin.left + "," + ( y.range()[ 0 ] + margin.top ) + ")" );
+        axis.xBlock
+            .call( axis.x )
+            .attr( "transform", "translate(" + margin.left + "," + ( h + margin.top ) + ")" );
 
-        axis.y
-            .call( axis.yScale )
+        axis.yBlock
+            .call( axis.y )
             .attr( "transform", "translate(" + margin.left + "," + margin.top + ")" );
 
-        var x2 = axis.x.node().getBBox().width,
-            y2 = axis.y.node().getBBox().height;
+        var x2 = axis.xBlock.node().getBBox().width,
+            y2 = axis.yBlock.node().getBBox().height;
 
-        axis.y.selectAll( ".tick" ).attr( { x1: -6, y1: 0, x2: x2, y2: 0 } );
-        axis.x.selectAll( ".tick" ).attr( { x1: 0, y1: - y2 } );
+        axis.yBlock.selectAll( ".tick" ).attr( { x1: -6, y1: 0, x2: x2, y2: 0 } );
+        axis.xBlock.selectAll( ".tick" ).attr( { x1: 0, y1: - y2 } );
     }
 
     function draw() {

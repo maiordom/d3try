@@ -1,5 +1,5 @@
 d3Try.Graph = function( data, config ) {
-    var isVis = true, tip = config.tip, state, legend, graph, dots, x, y, line, path, dotsBlock;
+    var isVis = true, tip = config.tip, state, legend, graph, dots, line, path, dotsBlock;
 
     function init() {
         cache();
@@ -29,18 +29,18 @@ d3Try.Graph = function( data, config ) {
     }
 
     function drawGraph( w, h ) {
-        x = d3.scale.linear().domain( config.domain.x ).range( [ 0, w ] );
-        y = d3.scale.linear().domain( config.domain.y ).range( [ h, 0 ] );
+        var xScale = d3.scale.linear().domain( config.domain.x ).range( [ 0, w ] ),
+            yScale = d3.scale.linear().domain( config.domain.y ).range( [ h, 0 ] );
 
         line = d3.svg.line()
-            .x( function( d, i ) { return x( d.x ); } )
-            .y( function( d, i ) { return y( d.y ); } );
+            .x( function( d, i ) { return xScale( d.x ); } )
+            .y( function( d, i ) { return yScale( d.y ); } );
 
         path.attr( "d", line( data.data ) );
 
         dots
-            .attr( "cx", function( d, i ) { return x( d.x ); } )
-            .attr( "cy", function( d, i ) { return y( d.y ); } );
+            .attr( "cx", function( d, i ) { return xScale( d.x ); } )
+            .attr( "cy", function( d, i ) { return yScale( d.y ); } );
     }
 
     function drawDots() {
