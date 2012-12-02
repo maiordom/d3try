@@ -71,9 +71,7 @@ d3Try.init = function() {
 
     root.onresize = function() {
         params = getParams();
-
-        Plot.setParams( params[ 0 ], params[ 1 ] );
-        Plot.draw();
+        Plot.draw( params[ 0 ], params[ 1 ] );
     };
 };
 

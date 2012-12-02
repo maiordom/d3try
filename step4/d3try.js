@@ -72,9 +72,7 @@ d3Try.init = function() {
 
     root.onresize = function() {
         params = getParams();
-
-        Plot.setParams( params[ 0 ], params[ 1 ] );
-        Plot.draw();
+        Plot.draw( params[ 0 ], params[ 1 ] );
     };
 };
 
@@ -120,16 +118,12 @@ d3Try.Plot = function( plot, config )
     function init() {
         setDomain();
         setParams( config.width, config.height );
+        setAxis();
         drawCtx();
         drawGradient();
         drawHelpers();
         initGraphs();
         draw();
-    }
-
-    function drawCtx() {
-        plot = d3.select( plot );
-        svg = plot.append( "svg" ).attr( "class", "svg" );
     }
 
     function setDomain() {
@@ -143,12 +137,19 @@ d3Try.Plot = function( plot, config )
         hOrig = height;
         w = width  - ( margin.right + margin.left );
         h = height - ( margin.top   + margin.bottom );
+    }
 
+    function setAxis() {
         var xScale = d3.scale.linear().domain( domain.x ).range( [ 0, w ] ),
             yScale = d3.scale.linear().domain( domain.y ).range( [ h, 0 ] );
 
         axis.x = d3.svg.axis().scale( xScale ).orient( "bottom" );
         axis.y = d3.svg.axis().scale( yScale ).orient( "left" );
+    }
+
+    function drawCtx() {
+        plot = d3.select( plot );
+        svg = plot.append( "svg" ).attr( "class", "svg" );
     }
 
     function drawGradient() {
@@ -245,8 +246,11 @@ d3Try.Plot = function( plot, config )
     init();
 
     return {
-        draw: draw,
-        setParams: setParams
+        draw: function( width, height ) {
+            setParams( width, height );
+            setAxis();
+            draw();
+        }
     };
 };
 
