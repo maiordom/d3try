@@ -75,18 +75,6 @@ d3Try.init = function() {
     };
 };
 
-d3Try.domain = function( data, name ) {
-    var domain  = d3.extent( data, function( d, i ) { return d[ name ]; } ),
-        left    = domain[ 0 ],
-        right   = domain[ 1 ],
-        padding = Math.abs( left - right ) * 0.1;
-
-    domain[ 0 ] = left  + ( left  >= 0 ? padding : - padding );
-    domain[ 1 ] = right + ( right >= 0 ? padding : - padding );
-
-    return domain;
-};
-
 d3Try.forEach = function( obj, callback, ctx ) {
     var i = 0, length = obj.length;
 
