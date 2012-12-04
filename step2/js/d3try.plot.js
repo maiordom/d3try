@@ -119,12 +119,4 @@ d3Try.Plot = function( plot, config )
     }
 
     init();
-
-    return {
-        draw: function( width, height ) {
-            setParams( width, height );
-            setAxis();
-            draw();
-        }
-    };
 };
