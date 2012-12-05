@@ -82,7 +82,7 @@ d3Try.concatArray = function( data ) {
 d3Try.Plot = function( plot, config )
 {
     var w, h, wOrig, hOrig, svg, title, subtitle, legends, gradientBlock, graphsBlock,
-        graphs = [], domain = {}, axis = {}, tip = {},
+        graphs = [], domain = {}, axis = {},
         margin = { top: 60, right: 50, bottom: 50, left: 60 },
         colors = [ "#DDDF0D", "#7798BF", "#55BF3B", "#DF5353", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee" ];
 
@@ -150,15 +150,8 @@ d3Try.Plot = function( plot, config )
     function drawHelpers() {
         axis.xBlock = svg.append( "g" ).attr( "class", "x axis" );
         axis.yBlock = svg.append( "g" ).attr( "class", "y axis" );
-
-        legends = svg.append( "g" ).attr( { "class": "legends", "transform": "translate(0, 40)" } );
+        legends     = svg.append( "g" ).attr( { "class": "legends", "transform": "translate(0, 40)" } );
         graphsBlock = svg.append( "g" ).attr( { "class": "graphs", "transform": "translate(" + margin.left + "," + margin.top + ")" } );
-
-        tip.g    = svg.append( "g" ).attr( { "class": "tooltip", "visibility": "hidden" } );
-        tip.rect = tip.g.append( "rect" ).attr( { "rx": 5, "ry": 5 } );
-        tip.x    = tip.g.append( "text" );
-        tip.y    = tip.g.append( "text" );
-
         title       = svg.append( "text" ).attr( "class", "title" ).text( config.title.text );
         subtitle    = svg.append( "text" ).attr( "class", "subtitle" ).text( config.subtitle.text );
         axis.xTitle = svg.append( "text" ).attr( "class", "x-axis-title" ).text( config.xAxis.title.text );

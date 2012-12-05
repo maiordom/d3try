@@ -69,7 +69,6 @@ d3Try.Plot = function( plot, config )
     function drawHelpers() {
         axis.xBlock = svg.append( "g" ).attr( "class", "x axis" );
         axis.yBlock = svg.append( "g" ).attr( "class", "y axis" );
-
         graphsBlock = svg.append( "g" ).attr( { "class": "graphs", "transform": "translate(" + margin.left + "," + margin.top + ")" } );
     }
 
