@@ -1,5 +1,4 @@
-d3Try.Plot = function( plot, config )
-{
+d3Try.Plot = function( plot, config ) {
     var w, h, wOrig, hOrig, svg, title, subtitle, legends, gradientBlock, graphsBlock,
         graphs = [], domain = {}, axis = {}, tip = {},
         margin = { top: 60, right: 50, bottom: 50, left: 60 },
